@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<MeterManagerContext>(opt => opt.UseInMemoryDatabase("MeterManagerDB"));
+builder.Services.AddDbContext<MeterManagerDbContext>(opt => opt.UseInMemoryDatabase("MeterManagerDB"));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
