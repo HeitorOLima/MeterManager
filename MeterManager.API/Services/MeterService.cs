@@ -8,11 +8,9 @@ namespace MeterManager.API.Services
     public class MeterService : IMeterService
     {
         private readonly IMeterRepository _meterRepository;
-        private readonly IMapper _mapper;
-        public MeterService(MeterRepository meterRepository, IMapper mapper)
+        public MeterService(IMeterRepository meterRepository)
         {
             _meterRepository = meterRepository;
-            _mapper = mapper;
         }
 
         public async Task<MeterModel> CreateAsync(MeterModel model)
@@ -51,7 +49,7 @@ namespace MeterManager.API.Services
 
         private bool CheckIfMeterExists(MeterModel model)
         {
-            var isUnique = _meterRepository.GetBySerialNumberAsync(model.SerialNumber) == null ? true : false;
+            var isUnique = _meterRepository.GetBySerialNumberAsync(model.SerialNumber) == null ? false : true;
             return isUnique;    
         }
 

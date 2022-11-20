@@ -7,10 +7,10 @@ namespace MeterManager.API.Models
     {
         [Key]
         public string SerialNumber { get; set; }
-        private MeterModelEnum ModelId { get; set; }
-        private int Number { get; set; }
-        private string FirmwareVersion { get; set; }
-        private SwitchStateEnum SwitchState { get; set; }
+        public MeterModelEnum ModelId { get; set; }
+        public int Number { get; set; }
+        public string FirmwareVersion { get; set; }
+        public  SwitchStateEnum SwitchState { get; set; }
 
     }
 }

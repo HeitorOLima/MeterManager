@@ -52,8 +52,8 @@ namespace MeterManager.API.Controllers
             }
         }
 
-        [HttpPost("meters/create/{meter}")]
-        public async Task<IActionResult> Create(MeterModel meter)
+        [HttpPost("meters/create")]
+        public async Task<IActionResult> Create([FromBody]MeterModel meter)
         {
             try
             {
@@ -70,8 +70,8 @@ namespace MeterManager.API.Controllers
             }
         }
 
-        [HttpPost("meters/update/{meter}")]
-        public async Task<IActionResult> Update(MeterModel meter)
+        [HttpPost("meters/update")]
+        public async Task<IActionResult> Update([FromBody]MeterModel meter)
         {
             try
             {
