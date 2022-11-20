@@ -1,33 +1,56 @@
-﻿using MeterManager.API.Interfaces;
+﻿using MeterManager.API.ApplicationContext;
+using MeterManager.API.Interfaces;
 using MeterManager.API.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace MeterManager.API.Repositories
 {
-    public class MeterRepository : IBaseRepository<MeterModel>
+    public class MeterRepository : IMeterRepository
     {
-        public Task<MeterModel> CreateAsync(MeterModel model)
+        private readonly MeterManagerDbContext _dbContext;
+
+        public MeterRepository(MeterManagerDbContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
         }
-        public Task<MeterModel> GetAsync(MeterModel model)
+
+        public async Task<MeterModel> CreateAsync(MeterModel model)
         {
-            throw new NotImplementedException();
+            _dbContext.Meters.Add(model);
+            await _dbContext.SaveChangesAsync();
+
+            return model;
         }
-        public Task<MeterModel> UpdateAsync(MeterModel model)
+
+        public Task DeleteAsync(string serialNumber)
         {
-            throw new NotImplementedException();
+            var modelToDelete = _dbContext.Meters.Find(serialNumber);
+
+            _dbContext.Meters.Remove(modelToDelete);
+            _dbContext.SaveChangesAsync();
+
+            return Task.CompletedTask;
         }
-        public Task<MeterModel> DeleteAsync(MeterModel model)
+
+        public Task<List<MeterModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return _dbContext.Meters.AsNoTracking().ToListAsync();
         }
-        public Task<MeterModel> GetAllAsync()
+
+        public async Task<MeterModel> GetBySerialNumberAsync(string serialNumber)
         {
-            throw new NotImplementedException();
+            var meter = await _dbContext.Meters.FindAsync(serialNumber);            
+            return meter;
         }
-        public Task<MeterModel> GetBySerialNumberAsync(string serialNumber)
+
+        public Task UpdateAsync(MeterModel model)
         {
-            throw new NotImplementedException();
+            _dbContext.Meters.Update(model);
+            _dbContext.SaveChangesAsync();
+
+            return Task.CompletedTask;
         }
     }
 }
