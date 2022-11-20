@@ -7,7 +7,7 @@ namespace MeterManager.API.Interfaces
     public interface IMeterService
     {
         Task<MeterModel> CreateAsync(MeterModel model);
-        Task UpdateAsync(MeterModel model);
+        Task<MeterModel> UpdateAsync(MeterModel model);
         Task DeleteAsync(string serialNumber);
         Task<List<MeterModel>> GetAllAsync();
         Task<MeterModel> GetBySerialNumberAsync(string serialNumber);

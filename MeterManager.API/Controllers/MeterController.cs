@@ -17,11 +17,11 @@ namespace MeterManager.API.Controllers
 
         [HttpGet]
         [Route("meters/recover")]
-        public ActionResult GetAllMeters()
+        public async Task<IActionResult> GetAllMeters()
         {
             try
             {
-                var meters = _meterService.GetAllAsync();
+                var meters = await _meterService.GetAllAsync();
 
                 if(meters == null)
                     return NotFound("No meter were found in the database");

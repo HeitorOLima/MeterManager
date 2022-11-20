@@ -44,10 +44,12 @@ namespace MeterManager.API.Repositories
             return meter;
         }
 
-        public async Task UpdateAsync(MeterModel model)
+        public async Task<MeterModel> UpdateAsync(MeterModel model)
         {
             _dbContext.Meters.Update(model);
             await _dbContext.SaveChangesAsync();
+
+            return model;
         }
     }
 }

@@ -12,6 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<MeterManagerDbContext>(opt => opt.UseInMemoryDatabase("MeterManagerDB"));
 builder.Services.AddScoped<IMeterService, MeterService>();
 builder.Services.AddScoped<IMeterRepository, MeterRepository>();
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("MeterManagerCorsPolicy", builder => builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,7 +1,5 @@
 ﻿using MeterManager.API.Interfaces;
 using MeterManager.API.Models;
-using MeterManager.API.Repositories;
-using AutoMapper;
 
 namespace MeterManager.API.Services
 {
@@ -38,13 +36,13 @@ namespace MeterManager.API.Services
             return _meterRepository.GetBySerialNumberAsync(serialNumber);
         }
 
-        public Task UpdateAsync(MeterModel model)
+        public async Task<MeterModel> UpdateAsync(MeterModel model)
         {
             var meterExist = CheckIfMeterExists(model);
             if (!meterExist)
                 return null;
                 
-            return _meterRepository.UpdateAsync(model);
+            return await _meterRepository.UpdateAsync(model);
         }
 
         private bool CheckIfMeterExists(MeterModel model)
