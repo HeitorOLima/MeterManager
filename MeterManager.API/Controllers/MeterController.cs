@@ -75,7 +75,7 @@ namespace MeterManager.API.Controllers
         {
             try
             {
-                var updatedMeter = _meterService.UpdateAsync(meter);
+                   var updatedMeter = await _meterService.UpdateAsync(meter);
 
                 if (updatedMeter == null)
                     return NotFound("The meter being updated was not found in the database.");

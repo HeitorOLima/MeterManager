@@ -66,14 +66,12 @@ namespace MeterManager.CLI.UserInterface
 
         private void ShowMeterData(MeterDto meter)
         {
-            
-            Console.WriteLine(@$"
-             Meter Serial Number: {meter.SerialNumber}\n
-             Meter Model Id: {meter.ModelId}\n
-             Meter Number: {meter.Number}\n
-             Meter Firmware Version: {meter.FirmwareVersion}\n
-             Meter Switch State: {meter.SwitchState}\n
-            ");
+            Console.WriteLine($"Meter Serial Number: {meter.SerialNumber}\n"+
+             $"Meter Model Id: {meter.ModelId}\n"+
+             $"Meter Number: {meter.Number}\n"+
+             $"Meter Firmware Version: {meter.FirmwareVersion}\n"+
+             $"Meter Switch State: {meter.SwitchState}\n"
+            );
         }
         private void CreateMeter()
         {
@@ -111,8 +109,13 @@ namespace MeterManager.CLI.UserInterface
                 {
                     var updatedMeter = GetMeterData();
 
-                    _meterService.UpdateMeter(updatedMeter);
-                    Console.WriteLine("Meter Updated");
+                    if (!updatedMeter.SerialNumber.Equals(serialNumber))
+                        Console.WriteLine("Its not possible to change the a meter's serial number. Consider to delete and create a new meter.");
+                    else
+                    {
+                        _meterService.UpdateMeter(updatedMeter);
+                        Console.WriteLine("Meter Updated");
+                    }
                 }
             }
         }
@@ -123,7 +126,9 @@ namespace MeterManager.CLI.UserInterface
 
             if (!string.IsNullOrEmpty(serialNumber))
             {
-                _meterService.GetMeterBySerialNumber(serialNumber);
+                var meter = _meterService.GetMeterBySerialNumber(serialNumber);
+
+                ShowMeterData(meter.Result);
             }
             else
             {

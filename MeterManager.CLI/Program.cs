@@ -17,6 +17,7 @@ namespace MeterManager.CLI.Views
                 if (validation == 6) ExitProgram = true;
             }
             Console.WriteLine("Thank you for the oportunity!");
+            Console.ReadLine();
         }
     }
 }

@@ -85,21 +85,22 @@ namespace MeterApplicationTests
             Assert.Equal(newMeter, result);
         }
 
+        //The test is failing because at the time of finding the existing object to update it is not found.
         [Fact]
-        public void UpdateAsyncTest_ReturnsCreatedResult()
+        public async void UpdateAsyncTest_ReturnsCreatedResult()
         {
             var meterToUpdate = new MeterModel
             {
-                SerialNumber = "ASPX400",
+                SerialNumber = "ASPX314",
                 ModelId = MeterModelEnum.NSX2P3W,
-                SwitchState = SwitchStateEnum.Connected,
+                SwitchState = SwitchStateEnum.Disconnected,
                 Number = 7,
                 FirmwareVersion = "1.0_V5"
             };
-
+            
             _mockedMeterRepository.Setup(m => m.UpdateAsync(meterToUpdate)).ReturnsAsync(meterToUpdate);
-
-            var result = _meterMockService.UpdateAsync(meterToUpdate).Result;
+            
+            var result = await _meterMockService.UpdateAsync(meterToUpdate);
             Assert.Equal(meterToUpdate, result);
         }
     }

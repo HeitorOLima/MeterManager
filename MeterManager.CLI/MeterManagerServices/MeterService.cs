@@ -44,7 +44,7 @@ namespace MeterManager.CLI.MeterManagerServices
         public async Task<MeterDto> GetMeterBySerialNumber(string serialNumber)
         {
             var meter = new MeterDto();
-            var response = await HttpClient.GetAsync($"{BaseAdress}/api/meters/recover/{serialNumber}");
+            var response = await HttpClient.GetAsync($"api/meters/recover/{serialNumber}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -58,12 +58,11 @@ namespace MeterManager.CLI.MeterManagerServices
         //DeleteMeter
         public async Task DeleteMeter(string serialNumber)
         {
-            var meter = new MeterDto();
-            var response = await HttpClient.DeleteAsync($"{BaseAdress}/api/meters/delete/{serialNumber}");
+            var response = await HttpClient.DeleteAsync($"api/meters/delete/{serialNumber}");
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("The content was successfully deleted from the database");
+                Console.WriteLine("The content was successfully deleted from the database\n");
             }
         }
 
@@ -73,12 +72,12 @@ namespace MeterManager.CLI.MeterManagerServices
         {
 
             var serializedJson = JsonConvert.SerializeObject(meter);
-            var postContent = new StringContent(serializedJson.ToString(), Encoding.UTF8, "application/json");
-            var response = await HttpClient.PostAsync($"{BaseAdress}/api/meters/create/", postContent);
+            var postContent = new StringContent(serializedJson, Encoding.UTF8, "application/json");
+            var response = await HttpClient.PostAsync($"api/meters/update/", postContent);
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("The content was successfully updated in the database");
+                Console.WriteLine("The meter was successfully updated in the database\n");
                 return meter;
             }
 
@@ -95,7 +94,7 @@ namespace MeterManager.CLI.MeterManagerServices
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("The content was successfully created in the database");
+                Console.WriteLine("The meter was successfully created in the database\n");
                 return meter;
             }
 

@@ -1,4 +1,5 @@
-﻿using MeterManager.API.Interfaces;
+﻿using AutoMapper;
+using MeterManager.API.Interfaces;
 using MeterManager.API.Models;
 
 namespace MeterManager.API.Services
@@ -38,11 +39,13 @@ namespace MeterManager.API.Services
 
         public async Task<MeterModel> UpdateAsync(MeterModel model)
         {
-            var meterExist = CheckIfMeterExists(model);
-            if (!meterExist)
+            var meterFound = GetMeterModelToUpdate(model.SerialNumber);
+            if (meterFound == null)
                 return null;
+
+            var meterToUpdate = ConciliateMeterData(meterFound, model);
                 
-            return await _meterRepository.UpdateAsync(model);
+            return await _meterRepository.UpdateAsync(meterToUpdate);
         }
 
         private bool CheckIfMeterExists(MeterModel model)
@@ -55,6 +58,23 @@ namespace MeterManager.API.Services
         {
             var meter = _meterRepository.GetBySerialNumberAsync(serialNumber);
             return meter;
+        }
+
+        public MeterModel GetMeterModelToUpdate(string serialNumber)
+        {
+            var meter = _meterRepository.GetBySerialNumberAsync(serialNumber);
+            return meter.Result;
+        }
+
+        private MeterModel ConciliateMeterData(MeterModel modelFound, MeterModel newModelData)
+        {
+            modelFound.SerialNumber = newModelData.SerialNumber;
+            modelFound.ModelId= newModelData.ModelId;
+            modelFound.FirmwareVersion= newModelData.FirmwareVersion;
+            modelFound.Number = newModelData.Number;
+            modelFound.SwitchState= newModelData.SwitchState;
+
+            return modelFound;
         }
     }
 }
