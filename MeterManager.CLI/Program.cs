@@ -2,13 +2,13 @@
 
 namespace MeterManager.CLI.Views
 {   
-    internal class MeterManagerUI
+    internal class Program
     {
         static void Main(string[] args)
         {
             var interfaceOptions = new InterfaceOptions();
             bool ExitProgram = false;
-            while (ExitProgram)
+            while (!ExitProgram)
             {
                 var validation = interfaceOptions.MainMenu();
                 if (validation == 6) ExitProgram = true;

@@ -35,6 +35,7 @@ namespace MeterManager.CLI.UserInterface
             if (string.IsNullOrEmpty(opt))
             {
                 Console.WriteLine("Opção inválida! Tente novamente.");
+                ConfirmRead();
                 return exitProgram;
             }
 
@@ -42,18 +43,23 @@ namespace MeterManager.CLI.UserInterface
             {
                 case "1":
                     CreateMeter();
+                    ConfirmRead();
                     break;
                 case "2":
                     UpdateMeter();
+                    ConfirmRead();
                     break;
                 case "3":
                     DeleteMeter();
+                    ConfirmRead();
                     break;
                 case "4":
                     GetAllMeters();
+                    ConfirmRead();
                     break;
                 case "5":
                     GetMeterBySerialNumber();
+                    ConfirmRead();
                     break;
                 case "6":
                     exitProgram = 6;
@@ -65,6 +71,7 @@ namespace MeterManager.CLI.UserInterface
 
         private void ShowMeterData(MeterDto meter)
         {
+            
             Console.WriteLine(@$"
              Meter Serial Number: {meter.SerialNumber}\n
              Meter Model Id: {meter.ModelId}\n
@@ -79,16 +86,15 @@ namespace MeterManager.CLI.UserInterface
 
             if(meter != null)
             {
-                await _meterService.CreateMeter(meter);
+                var createdMeter = await _meterService.CreateMeter(meter);
                 
                 Console.WriteLine("Meter Succesfully created!\n");
-                ShowMeterData(meter);
+                ShowMeterData(createdMeter);
             }
             else
             {
                 Console.WriteLine("Problem with create method");
             }
-            ConfirmRead();
         }
         private async void UpdateMeter()
         {
@@ -203,7 +209,7 @@ namespace MeterManager.CLI.UserInterface
         private void ConfirmRead()
         {
             Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            Console.ReadLine();
             Console.Clear();
         }
 
