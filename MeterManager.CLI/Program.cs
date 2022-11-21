@@ -8,6 +8,9 @@ namespace MeterManager.CLI.Views
         {
             var interfaceOptions = new InterfaceOptions();
             bool ExitProgram = false;
+
+            Console.WriteLine("Welcome to the MeterManager application!\n\n");
+
             while (!ExitProgram)
             {
                 var validation = interfaceOptions.MainMenu();

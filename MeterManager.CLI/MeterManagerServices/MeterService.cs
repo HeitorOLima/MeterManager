@@ -28,7 +28,7 @@ namespace MeterManager.CLI.MeterManagerServices
         //GetAllMeters
         public async Task<List<MeterDto>> GetAllMeters()
         {
-            var response = await HttpClient.GetAsync("api/meters/recover");
+            var response = await HttpClient.GetAsync($"{BaseAdress}api/meters/recover");
             var meters = new List<MeterDto>();
 
             if (response.IsSuccessStatusCode)
@@ -44,7 +44,7 @@ namespace MeterManager.CLI.MeterManagerServices
         public async Task<MeterDto> GetMeterBySerialNumber(string serialNumber)
         {
             var meter = new MeterDto();
-            var response = await HttpClient.GetAsync($"api/meters/recover/{serialNumber}");
+            var response = await HttpClient.GetAsync($"{BaseAdress}/api/meters/recover/{serialNumber}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -59,7 +59,7 @@ namespace MeterManager.CLI.MeterManagerServices
         public async Task DeleteMeter(string serialNumber)
         {
             var meter = new MeterDto();
-            var response = await HttpClient.DeleteAsync("api/meters/delete/{serialNumber}");
+            var response = await HttpClient.DeleteAsync($"{BaseAdress}/api/meters/delete/{serialNumber}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -74,7 +74,7 @@ namespace MeterManager.CLI.MeterManagerServices
 
             var serializedJson = JsonConvert.SerializeObject(meter);
             var postContent = new StringContent(serializedJson.ToString(), Encoding.UTF8, "application/json");
-            var response = await HttpClient.PostAsync($"api/meters/create/", postContent);
+            var response = await HttpClient.PostAsync($"{BaseAdress}/api/meters/create/", postContent);
 
             if (response.IsSuccessStatusCode)
             {

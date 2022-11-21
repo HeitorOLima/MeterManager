@@ -20,22 +20,20 @@ namespace MeterManager.CLI.UserInterface
             int exitProgram = 0;
             string opt = "";
 
-            Console.WriteLine("Welcome to the MeterManagerApplication!\n");
-            Console.WriteLine(@"Please chose one of the actions bellow:\n
-            1- Register a new Meter\n
-            2- Edit a meter data\n
-            3- Delete a meter from database\n
-            4-  List all meters\n
-            5- Find a meter by SerialNumber\n
-            6- Exit Application\n
-            ");
+            Console.WriteLine("Please chose one of the actions bellow:\n" +
+            "1- Register a new Meter\n"+
+            "2- Edit a meter data\n"+
+            "3- Delete a meter from database\n"+
+            "4- List all meters\n"+
+            "5- Find a meter by SerialNumber\n"+
+            "6- Exit Application\n"+
+            "7- Clear screen");
 
             opt = Console.ReadLine();
 
             if (string.IsNullOrEmpty(opt))
             {
                 Console.WriteLine("Opção inválida! Tente novamente.");
-                ConfirmRead();
                 return exitProgram;
             }
 
@@ -43,28 +41,25 @@ namespace MeterManager.CLI.UserInterface
             {
                 case "1":
                     CreateMeter();
-                    ConfirmRead();
                     break;
                 case "2":
                     UpdateMeter();
-                    ConfirmRead();
                     break;
                 case "3":
                     DeleteMeter();
-                    ConfirmRead();
                     break;
                 case "4":
                     GetAllMeters();
-                    ConfirmRead();
                     break;
                 case "5":
                     GetMeterBySerialNumber();
-                    ConfirmRead();
                     break;
                 case "6":
                     exitProgram = 6;
                     break;
-
+                case "7":
+                    Clear();
+                    break;
             }
             return exitProgram;
         }
@@ -80,20 +75,21 @@ namespace MeterManager.CLI.UserInterface
              Meter Switch State: {meter.SwitchState}\n
             ");
         }
-        private async void CreateMeter()
+        private void CreateMeter()
         {
             var meter = GetMeterData();
 
             if(meter != null)
             {
-                var createdMeter = await _meterService.CreateMeter(meter);
+                var createdMeter = _meterService.CreateMeter(meter);
                 
                 Console.WriteLine("Meter Succesfully created!\n");
-                ShowMeterData(createdMeter);
+                ShowMeterData(createdMeter.Result);
             }
             else
             {
                 Console.WriteLine("Problem with create method");
+
             }
         }
         private async void UpdateMeter()
@@ -104,10 +100,10 @@ namespace MeterManager.CLI.UserInterface
             if (string.IsNullOrEmpty(serialNumber))
                 Console.WriteLine("Invalid serial number, please try again.");
             else{
-                var meterToEdit = await _meterService.GetMeterBySerialNumber(serialNumber);
+                var meterToEdit = _meterService.GetMeterBySerialNumber(serialNumber);
 
                 Console.WriteLine("Are you sure that you want to edit the following Meter? [Y/N]\n");
-                ShowMeterData(meterToEdit);
+                ShowMeterData(meterToEdit.Result);
 
                 var confirmation = Console.ReadLine();
 
@@ -115,35 +111,33 @@ namespace MeterManager.CLI.UserInterface
                 {
                     var updatedMeter = GetMeterData();
 
-                    await _meterService.UpdateMeter(updatedMeter);
+                    _meterService.UpdateMeter(updatedMeter);
                     Console.WriteLine("Meter Updated");
                 }
             }
-            ConfirmRead();
         }
-        private async void GetMeterBySerialNumber()
+        private void GetMeterBySerialNumber()
         {
             Console.WriteLine("Inform the serial Number of the meter");
             var serialNumber = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(serialNumber))
             {
-                await _meterService.GetMeterBySerialNumber(serialNumber);
+                _meterService.GetMeterBySerialNumber(serialNumber);
             }
             else
             {
                 Console.WriteLine("Meter not found");
             }
-            ConfirmRead();
         }
-        private async void GetAllMeters()
+        private void GetAllMeters()
         {
-            var meters = await _meterService.GetAllMeters();
+            var meters = _meterService.GetAllMeters();
 
-            if(!(meters.Count == 0))
+            if(!(meters.Result.Count == 0))
             {
                 Console.WriteLine("Meters information: ");
-                foreach(var item in meters)
+                foreach(var item in meters.Result)
                 {
                     ShowMeterData(item);
                 }
@@ -152,28 +146,26 @@ namespace MeterManager.CLI.UserInterface
             {
                 Console.WriteLine("No meters found");
             }
-            ConfirmRead();
         }
-        private async void DeleteMeter()
+        private void DeleteMeter()
         {
             Console.WriteLine("Inform the meter Serial Number");
             var serialNumber = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(serialNumber))
             {
-                await _meterService.DeleteMeter(serialNumber);
+                _meterService.DeleteMeter(serialNumber);
                 Console.WriteLine("Meter deleted");
             }
             else
             {
                 Console.WriteLine("Meter not found");
             }
-            ConfirmRead();
         }
 
         private MeterDto GetMeterData() {
 
-            Console.WriteLine("Inform the meter serial Number, model Id, Number, Firmware version and the switch state. The data must be separated by a ';' character.");
+            Console.WriteLine("Inform the meter's serial Number, model Id, Number, Firmware version and the switch state. The entry must be separated by a comma (',') character.");
             var userEntry = Console.ReadLine();
 
             if (string.IsNullOrEmpty(userEntry))
@@ -182,7 +174,7 @@ namespace MeterManager.CLI.UserInterface
             }
             else
             {
-                var meterData = userEntry.Split(";");
+                var meterData = userEntry.Split(",");
 
                 if (meterData.Count() < 5)
                 {
@@ -206,10 +198,8 @@ namespace MeterManager.CLI.UserInterface
             return null;
         }
 
-        private void ConfirmRead()
+        private void Clear()
         {
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
             Console.Clear();
         }
 
