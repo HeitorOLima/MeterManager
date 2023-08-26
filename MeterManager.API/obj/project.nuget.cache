@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UYMdiy9erGPheMme+9XFYuQo7EPCqS41SrQ9mgKWyhd6rTTA7amElGRqQhTMlg1LO44gEEZlB4u4xVsvrLmv+A==",
+  "dgSpecHash": "yYkQUAMBwO76TOw4SUnnK0dWN3DM3V2cXRsuyJLFQZ1R7/bc6fJW+jQBKokjZvErDiu4itYk1qxeh6deVfJ1xA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ho_li\\Documents\\Projetos.NET\\MeterManager\\MeterManager\\MeterManager.API\\MeterManager.API.csproj",
+  "projectFilePath": "C:\\Users\\ho_li\\Documents\\Projetos.NET\\MeterManager\\MeterManager.API\\EnergyEndpointManager.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ho_li\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.0\\microsoft.entityframeworkcore.6.0.0.nupkg.sha512",
     "C:\\Users\\ho_li\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.0\\microsoft.entityframeworkcore.abstractions.6.0.0.nupkg.sha512",

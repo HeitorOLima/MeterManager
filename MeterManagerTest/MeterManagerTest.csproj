@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeterManager.API\MeterManager.API.csproj" />
+    <ProjectReference Include="..\MeterManager.API\EnergyEndpointManager.API.csproj" />
   </ItemGroup>
 
 </Project>
