@@ -1,6 +1,6 @@
-﻿namespace MeterManager.API.Models.Enums
+﻿namespace EnergyEndpointManager.API.Models.Enums
 {
-    public enum MeterModelEnum
+    public enum EMeterModel
     {
 
         NSX1P2W = 16,

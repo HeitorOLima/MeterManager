@@ -1,16 +1,16 @@
-﻿using MeterManager.API.Interfaces;
-using MeterManager.API.Models;
+﻿using EnergyEndpointManager.API.Interfaces;
+using EnergyEndpointManager.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MeterManager.API.Controllers
+namespace EnergyEndpointManager.API.Controllers
 {
     [Route("api")]
     [ApiController]
-    public class MeterController : ControllerBase
+    public class EndpointController : ControllerBase
     {
-        private readonly IMeterService _meterService;
+        private readonly IEndpointService _meterService;
 
-        public MeterController(IMeterService meterService)
+        public EndpointController(IEndpointService meterService)
         {
             _meterService = meterService;
         }
@@ -53,11 +53,11 @@ namespace MeterManager.API.Controllers
         }
 
         [HttpPost("meters/create")]
-        public async Task<IActionResult> Create([FromBody]MeterModel meter)
+        public async Task<IActionResult> Create([FromBody]EnergyEndpoint endpoint)
         {
             try
             {
-                var createdMeter = await _meterService.CreateAsync(meter);
+                var createdMeter = await _meterService.CreateAsync(endpoint);
 
                 if (createdMeter == null)
                     return BadRequest("The attempt to create the meter was canceled because it already exists in the database.");
@@ -66,16 +66,16 @@ namespace MeterManager.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest($"An error ocurred while trying to create the meter {meter.SerialNumber}:" + ex.Message);
+                return BadRequest($"An error ocurred while trying to create the meter {endpoint.SerialNumber}:" + ex.Message);
             }
         }
 
         [HttpPost("meters/update")]
-        public async Task<IActionResult> Update([FromBody]MeterModel meter)
+        public async Task<IActionResult> Update([FromBody]EnergyEndpoint endpoint)
         {
             try
             {
-                   var updatedMeter = await _meterService.UpdateAsync(meter);
+                   var updatedMeter = await _meterService.UpdateAsync(endpoint);
 
                 if (updatedMeter == null)
                     return NotFound("The meter being updated was not found in the database.");
@@ -84,7 +84,7 @@ namespace MeterManager.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error ocurred while trying to update the meter {meter.SerialNumber}:" + ex.Message);
+                return BadRequest($"An error ocurred while trying to update the meter {endpoint.SerialNumber}:" + ex.Message);
             }
         }
 

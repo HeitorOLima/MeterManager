@@ -1,6 +1,6 @@
-﻿namespace MeterManager.API.Models.Enums
+﻿namespace EnergyEndpointManager.API.Models.Enums
 {
-    public enum SwitchStateEnum
+    public enum ESwitchState
     {
         Disconnected = 0,
         Connected = 1,
